@@ -1,0 +1,43 @@
+#!/bin/bash
+#documentation
+while true; do
+printf "\nPlease enter the customer you wish to remove"
+printf "\n(type \"exit\" to return to Menu)"
+printf "\n==>"
+read cust
+
+custSearch=$(grep -i "$cust" CustomerDetails)
+custCount=$(grep -c "$cust" CustomerDetails)
+
+if [[ ${custCount} > 1 ]]
+  then
+    printf "\n${custSearch}"
+    printf "\nPlease enter more information\n"
+    continue
+
+elif [[ ${custCount} == 1 ]]
+  then
+    printf "\n${custSearch}"
+    printf "\nConfirm (y/n)"
+    printf "\n==>> "
+    read result
+
+    if [ "$result" == 'y' ]
+      then
+	grep -v "$cust" CustomerDetails > tmp/CustomerDetails
+	mv tmp/CustomerDetails CustomerDetails
+	printf "\nCustomer Deleted. Returning to Menu...\n"
+	sleep 3
+    fi
+
+elif [[ $cust == 'exit' ]]
+  then
+    printf "\nReturning to Menu..."
+    sleep 3
+
+else
+  printf "\nThere is no Customer by this name: $cust\n"
+  continue
+fi
+break
+done

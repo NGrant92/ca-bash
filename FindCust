@@ -1,0 +1,31 @@
+#!/bin/bash
+
+while true; do
+printf "\nEnter Customer Name:\n"
+read cust
+
+custSearch=$(grep -i "$cust" CustomerDetails)
+custCount=$(grep -c "$cust" CustomerDetails)
+
+if [[ ${custCount} => 1 ]]
+  then
+    printf "\nSEARCH RESULTS:"
+    printf "\n$custSearch"
+    printf "\n\nPress enter to return to main menu"
+    read input
+
+    printf "\n\n Returning to menu..."
+    sleep 3
+else
+  printf "\nNo search matches: $cust"
+  printf "\nSearch again? (y/n)"
+  read ans
+  if [[ $ans == 'y' ]]
+    then
+      continue
+  else
+    printf "\nReturning to menu..."
+    sleep 3
+fi
+break
+done

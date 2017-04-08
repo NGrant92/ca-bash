@@ -1,0 +1,38 @@
+#!/bin/bash
+printf "Please enter the following details\n"
+
+
+printf "\nE-mail address: "
+read email
+until [[ $email == *?@*?.??* ]]; do
+  printf "\nInvalid format: $email"
+  printf "\nExpected format: xx@xx.xx\n"
+  read email
+done
+
+printf "\nName: "
+read name
+until [[ $name =~ ^[a-zA-Z]+$ ]]; do
+  printf "\nInvalid format: $name"
+  printf "\nOnly letters please"
+  read name
+done
+
+printf "\nAlias: "
+read alias
+
+
+printf "\nAddress: "
+read address
+
+printf "\nPhone Number: "
+read phone
+until [[ $phone =~ ^[0-9]+$ ]]; do
+  printf "\nInvalid input: $phone"
+  printf "\nUse numbers only"
+  read phone
+done
+printf "$email $name $alias $address $phone\n" >> CustomerDetails
+printf "Customer successfully added. Returning to menu."
+sleep 3
+

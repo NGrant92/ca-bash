@@ -1,0 +1,35 @@
+#!/bin/bash
+while true; do
+printf "\n Please enter the name or email you wish to send to"
+printf "\n==>> "
+read cust
+
+custCount=$(grep -c "$cust" CustomerDetails)
+
+if [[ ${custCount} > 1 ]]
+  then
+    printf "\n `grep "$cust" CustomerDetails`"
+    printf "\n Please enter more information"
+    
+
+elif [[ $custCount == 1 ]]
+  then
+    printf "\n `grep "$cust" custDetails`"
+    printf "\nConfirm? (y/n)"
+    printf "\n==>> "
+    read confirm
+ 
+    if [ "$confirm" == 'n' ]
+      then
+       ./Menu
+
+    else
+      printf "\nPlease enter your message below\n"
+      read message
+      printf "\nPlease enter the subject header\n"
+      read subject
+    fi
+break
+done
+
+echo $message | mail $subject $emailaddress

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+while true; do
+  clear
+  printf "\n    # # # # # # # # # # # # # # # # # # # # # #"
+  printf "\n    #                                         #"
+  printf "\n    #     WELCOME TO THE CUSTOMER DATABASE    #"
+  printf "\n    #                                         #"
+  printf "\n    # # # # # # # # # # # # # # # # # # # # # #"
+  printf "\n"
+  printf "\n\tPlease choose one of the following:"
+  printf "\n"
+  printf "\n\t1) Add a new Customer"
+  printf "\n\t2) Remove an existing Customer"
+  printf "\n\t3) Search for a Customer"
+  printf "\n\t4) E-mail a Customer"
+  printf "\n\t0) Exit"
+  printf "\n\t==>>"
+  read option
+
+  case $option in
+  1)
+    clear
+    ./AddCust
+    ;;
+
+  2)
+    clear
+    ./RemCust
+    ;;
+  
+  3)
+    clear
+    ./FindCust
+    ;;
+  
+  0)
+    exit
+    ;;
+
+  *)
+    printf "\nInvalid input: $option"
+    sleep 1
+    ;;
+  esac
+done
