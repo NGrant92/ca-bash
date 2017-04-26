@@ -1,2 +1,3 @@
 tests
-.save
+*.save
+*.swp

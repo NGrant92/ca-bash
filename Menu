@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#the main menu that will be displayed to the user's monitor
 while true; do
   clear
   printf "\n    # # # # # # # # # # # # # # # # # # # # # #"
@@ -18,6 +19,7 @@ while true; do
   printf "\n\t==>>"
   read option
 
+#sential loop that will take input from the user before deciding what script file to run
   case $option in
   1)
     clear
@@ -37,7 +39,7 @@ while true; do
   0)
     exit
     ;;
-
+#if the user doesn't select anything between 0-3 then if will prompt them with an invalid option message
   *)
     printf "\nInvalid input: $option"
     sleep 1
