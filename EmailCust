@@ -1,35 +1,56 @@
 #!/bin/bash
+
+#Beginning of while loop
 while true; do
 printf "\n Please enter the name or email you wish to send to"
 printf "\n==>> "
+
+#user's input is stored
 read cust
+#results of a search variable is stored in here
+custSearch=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk '{print $0}')
 
-custCount=$(grep -c "$cust" CustomerDetails)
+#the number of results from the search is stored in here to be tested later
+custCount=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk 'END {print NR}')
 
+#this method searches for the email address belonging to the searched contact
+emailaddress=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk '{print $1}')
+
+#custCount is tested to see if there was more than one result from the search
 if [[ ${custCount} > 1 ]]
   then
-    printf "\n `grep "$cust" CustomerDetails`"
+    #if there is more than one result it will tell the user to be more specific
+    printf "\n${custSearch}"
     printf "\n Please enter more information"
+    #the 'continue' will return the user to the start of RemCust 
+    continue
     
-
+#if custCount == 1 it will proceed on
 elif [[ $custCount == 1 ]]
   then
-    printf "\n `grep "$cust" custDetails`"
+    #it will print out all the details belonging to the customer and ask the customer
+    #to confirm they wish to email that specific contact
+    printf "\n${custSearch}"
     printf "\nConfirm? (y/n)"
     printf "\n==>> "
     read confirm
- 
+
+    #If user does not wish to email the selected person it will return the user to the main menu
     if [ "$confirm" == 'n' ]
       then
-       ./Menu
-
+       printf "\nReturning to menu..."
+       sleep 3
+    #If they agree they will be asked to input their message and the subject header
+    #it will then send the email to the specified contact
     else
       printf "\nPlease enter your message below\n"
       read message
       printf "\nPlease enter the subject header\n"
       read subject
+      
+      echo $message | mail $subject $emailaddress
+      printf "\nEmail successfull.\nReturning to menu..."
+      sleep 3
     fi
 break
 done
-
-echo $message | mail $subject $emailaddress

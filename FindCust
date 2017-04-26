@@ -1,21 +1,32 @@
 #!/bin/bash
 
+#Beginning of while loop
 while true; do
 printf "\nEnter Customer Name:\n"
+
+#user's input is stored
 read cust
 
-custSearch=$(grep -i "$cust" CustomerDetails)
-custCount=$(grep -c "$cust" CustomerDetails)
+#results of a search variable is stored in here
+custSearch=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk '{print $0}')
 
-if [[ ${custCount} => 1 ]]
+#the number of results from the search is stored in here to be tested later
+custCount=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk 'END {print NR}')
+
+#if the search finds anything it will print it to the screen
+if [[ ${custCount} > 0 ]]
   then
     printf "\nSEARCH RESULTS:"
     printf "\n$custSearch"
+    #it will wait for the hit enter before it returns to the menu
     printf "\n\nPress enter to return to main menu"
     read input
 
     printf "\n\n Returning to menu..."
     sleep 3
+
+#if there are no matches it will prompt the user that there are no matches and will display
+#it will also give the user an option to search again
 else
   printf "\nNo search matches: $cust"
   printf "\nSearch again? (y/n)"
@@ -24,8 +35,9 @@ else
     then
       continue
   else
-    printf "\nReturning to menu..."
+    printf "\nReturning to menu...\n"
     sleep 3
+	fi
 fi
 break
 done

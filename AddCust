@@ -1,30 +1,40 @@
 #!/bin/bash
+
+#Beginning of while loop
 printf "Please enter the following details\n"
 
-
+#it will request the user to input an email address
 printf "\nE-mail address: "
 read email
+#it will check what's inputted contains characters specific to an email address
+#if they dont have the correct format then it will loop asking to input the correct style
 until [[ $email == *?@*?.??* ]]; do
   printf "\nInvalid format: $email"
   printf "\nExpected format: xx@xx.xx\n"
   read email
 done
 
+#it will request the user to input a contact's name
 printf "\nName: "
 read name
+#it will check what's inputted contains only letters
+#if they dont have the correct format then it will loop asking to input the correct style
 until [[ $name =~ ^[a-zA-Z]+$ ]]; do
   printf "\nInvalid format: $name"
   printf "\nOnly letters please"
   read name
 done
 
+#Alias' can very so this is left open
 printf "\nAlias: "
 read alias
 
-
+#addresses can hold numbers and letters so it's not neccessary to run a check
 printf "\nAddress: "
 read address
 
+#this checks if the user inputs only numbers
+#if they dont have the correct format then it will loop asking to input the correct style
 printf "\nPhone Number: "
 read phone
 until [[ $phone =~ ^[0-9]+$ ]]; do
@@ -32,7 +42,9 @@ until [[ $phone =~ ^[0-9]+$ ]]; do
   printf "\nUse numbers only"
   read phone
 done
-printf "$email $name $alias $address $phone\n" >> CustomerDetails
+
+#it will then take all the input data into the CustomerDetails file
+printf "$email	$name	$alias	$address	$phone\n" >> CustomerDetails
 printf "Customer successfully added. Returning to menu."
 sleep 3
 
