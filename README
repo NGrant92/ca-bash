@@ -1,10 +1,10 @@
-Since our discussion on thursday 27th april I've:
+An assignment for our Compute Systems Module. It involved us learning and coding in ubuntu. Our assignment involved us 
+creating a Customer Details contact book which held the customer's email, name, address and phone number.
+The assignment specified various abilties the user could do:
 
-- Changed the search methods so if will allow the user to delete or email
-  multiple people at once
+1: Add a new Customer
+2: Remove a Customer
+3: Search for a Customer
+4: Email a Customer
 
-- Changed the email script so it will allow the user to email everyone
-  in their contact list if the user inputs "all" when asked
-
-- In AddCust I added text that will ask the user to "Please try again"
-  if they input a name, email or phone number incorrectly
+This script allows you to do all the above as well as emailing and deleting multiple customers as once
