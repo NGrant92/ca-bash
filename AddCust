@@ -4,18 +4,20 @@
 printf "Please enter the following details\n"
 
 #it will request the user to input an email address
+printf "\nExpected format: xx@xx.xx"
 printf "\nE-mail address: "
 read email
 #it will check what's inputted contains characters specific to an email address
 #if they dont have the correct format then it will loop asking to input the correct style
 until [[ $email == *?@*?.??* ]]; do
   printf "\nInvalid format: $email"
-  printf "\nExpected format: xx@xx.xx\n"
+  printf "\nExpected format: xx@xx.xx"
   printf "\nPlease try again:\n"
   read email
 done
 
 #it will request the user to input a contact's name
+printf "\nPlease use letters only"
 printf "\nFirst Name: "
 read fname
 #it will check what's inputted contains only letters
@@ -28,6 +30,7 @@ until [[ $fname =~ ^[a-zA-Z]+$ ]]; do
 done
 
 #it will request the user to input a contact's name
+printf "\nPlease use letters only"
 printf "\nLast Name: "
 read lname
 #it will check what's inputted contains only letters
@@ -49,6 +52,7 @@ read address
 
 #this checks if the user inputs only numbers
 #if they dont have the correct format then it will loop asking to input the correct style
+printf "\nPlease use numbers only"
 printf "\nPhone Number: "
 read phone
 until [[ $phone =~ ^[0-9]+$ ]]; do

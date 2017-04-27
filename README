@@ -1,0 +1,10 @@
+Since our discussion on thursday 27th april I've:
+
+- Changed the search methods so if will allow the user to delete or email
+  multiple people at once
+
+- Changed the email script so it will allow the user to email everyone
+  in their contact list if the user inputs "all" when asked
+
+- In AddCust I added text that will ask the user to "Please try again"
+  if they input a name, email or phone number incorrectly

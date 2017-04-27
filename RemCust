@@ -15,43 +15,50 @@ custSearch=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input ||
 custCount=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk 'END {print NR}')
 
 #custCount is tested to see if there was more than one result from the search
+#if so the prompt string will be set
 if [[ ${custCount} > 1 ]]
   then
-    #if there is more than one result it will tell the user to be more specific
-    printf "\n${custSearch}"
-    printf "\nPlease enter more information\n"
-    #the 'continue' will return the user to the start of RemCust 
-    continue
+		prompt="Confirm multiple deletes?(y/n)"
 
-#if custCount == 1 it will proceed on
+#testing if custCount == 1 
+#if so the prompt string will be set
 elif [[ ${custCount} == 1 ]]
   then
-    #it will print out all the details belonging to the customer and ask the customer
-    #to confirm their action to delete the contact
-    printf "\n${custSearch}"
-    printf "\nConfirm (y/n)"
-    printf "\n==>> "
-    read result
-    #If user agrees it will make a copy of the CustomerDetails file but without the specified
-    #contact and then move the copy in tmp folder into the main folder
-    if [ "$result" == 'y' ]
-      then
-	grep -v "$cust" CustomerDetails > tmp/CustomerDetails
-	mv tmp/CustomerDetails CustomerDetails
-	printf "\nCustomer Deleted. Returning to Menu...\n"
-	#sleeps for 3 seconds before returning to menu
-	sleep 3
-    fi
+		prompt="Confirm?(y/n)"
+
 #if user types in "exit" it will return to menu
 elif [[ $cust == 'exit' ]]
   then
-    printf "\nReturning to Menu..."
+    printf "\nReturning to Menu...\n"
     sleep 3
+		break
+
 #if the search doesn't find a match in CustomerDetails it will tell the user
 #no matches found and display what they typed in
 else
   printf "\nThere is no Customer by this name: $cust\n"
   continue
+fi
+
+#it will print out all the details belonging to the customer and ask the customer
+#to confirm their action to delete the contact
+printf "\n${custSearch}"
+printf "\n${prompt}"
+printf "\n==>> "
+read result
+#If user agrees it will make a copy of the CustomerDetails file but without the specified
+#contact and then move the copy in tmp folder into the main folder
+if [ "$result" == 'y' ]
+	then
+	grep -v "$cust" CustomerDetails > tmp/CustomerDetails
+	mv tmp/CustomerDetails CustomerDetails
+	printf "\nCustomer(s) Deleted. Returning to Menu...\n"
+	#sleeps for 3 seconds before returning to menu
+	sleep 3
+else
+	printf "\nReturning to start...\n"
+  sleep 3
+	continue
 fi
 break
 done

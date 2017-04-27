@@ -2,62 +2,49 @@
 
 #Beginning of while loop
 while true; do
-printf "\n Please enter the name or email you wish to send to"
+printf "\nPlease enter the name or address of people you wish to send to"
+printf "\nIf you want to email everyone then type \"all\""
 printf "\n(type \"exit\" to return to Menu)"
 printf "\n==>> "
 
 #user's input is stored
 read cust
 #results of a search variable is stored in here
-custSearch=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk '{print $0}')
+if [[ $cust == 'all' ]]
+  then
+	#this method searches for the email address belonging to everyone
+	emailaddress=$(awk '{print $1}' CustomerDetails)
+else
+	#this method searches for the email address belonging to the searched contact
+	emailaddress=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input || $5 == input' CustomerDetails | awk '{print $1}')
+fi
+#stores the results from searching CustomerDetails that match the user's input
+custSearch=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input || $5 == input' CustomerDetails | awk '{print $0}')
 
 #the number of results from the search is stored in here to be tested later
-custCount=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk 'END {print NR}')
+custCount=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input || $5 == input' CustomerDetails | awk 'END {print NR}')
 
-#this method searches for the email address belonging to the searched contact
-emailaddress=$(awk -v input="$cust" 'BEGIN {FS="\t"} $2 == input || $3 == input || $4 == input' CustomerDetails | awk '{print $1}')
-
-#custCount is tested to see if there was more than one result from the search
-if [[ ${custCount} > 1 ]]
+#if the user inputs "all" then it will set the prompt variable to the string below
+if [[ $cust == 'all' ]]
   then
-    #if there is more than one result it will tell the user to be more specific
-    printf "\n${custSearch}"
-    printf "\n Please enter more information"
-    #the 'continue' will return the user to the start of RemCust 
-    continue
+    prompt="Confirm sending email to everyone? (y/n)"
+
+#if custCount has more than 1 result and user did not input "all" then it will set the prompt variable to the string below
+elif [[ ${custCount} > 1 && $cust != 'all' ]]
+  then
+    prompt="Confirm sending email to multiple people? (y/n)"
     
-#if custCount == 1 it will proceed on
-elif [[ $custCount == 1 ]]
+#if custCount == 1 it will set the prompt variable to the string below
+elif [[ $custCount == 1 && $cust != 'all' ]]
   then
-    #it will print out all the details belonging to the customer and ask the customer
-    #to confirm they wish to email that specific contact
-    printf "\n${custSearch}"
-    printf "\nConfirm? (y/n)"
-    printf "\n==>> "
-    read confirm
+		prompt="Confirm?(y/n)"
 
-    #If user does not wish to email the selected person it will return the user to the main menu
-    if [ "$confirm" == 'n' ]
-      then
-       printf "\nReturning to menu..."
-       sleep 3
-    #If they agree they will be asked to input their message and the subject header
-    #it will then send the email to the specified contact
-    else
-      printf "\nPlease enter your message below\n"
-      read message
-      printf "\nPlease enter the subject header\n"
-      read subject
-      
-      echo $message | mail $subject $emailaddress
-      printf "\nEmail successfull.\nReturning to menu..."
-      sleep 3
-    fi
 #if user types in "exit" it will return to menu
 elif [[ $cust == 'exit' ]]
   then
     printf "\nReturning to Menu...\n"
     sleep 3
+		break
 
 else
   printf "\nNo search matches: $cust"
@@ -69,7 +56,35 @@ else
   else
     printf "\nReturning to menu...\n\n"
     sleep 3
+		break
 	fi
+fi
+
+#it will print out all the details belonging to the customer and ask the user
+#to confirm if they wish to email that a specific or multiple contacts
+printf "\n${custSearch}"
+printf "\n${prompt}"
+printf "\n==>> "
+read confirm
+
+#If user does not wish to email the selected person it will return the user to the main menu
+if [ "$confirm" == 'n' ]
+	then
+		printf "\nReturning to start..."
+		sleep 3
+		continue
+
+#If they agree they will be asked to input their message and the subject header
+#it will then send the email to the specified contact
+else
+	printf "\nPlease enter your message below\n"
+	read message
+	printf "\nPlease enter the subject header\n"
+	read subject
+      
+	echo $message | mail $str $emailaddress
+	printf "\nEmail successfull.\nReturning to menu...\n"
+	sleep 3
 fi
 break
 done
