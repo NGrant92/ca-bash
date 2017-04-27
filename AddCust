@@ -15,14 +15,25 @@ until [[ $email == *?@*?.??* ]]; do
 done
 
 #it will request the user to input a contact's name
-printf "\nName: "
-read name
+printf "\nFirst Name: "
+read fname
 #it will check what's inputted contains only letters
 #if they dont have the correct format then it will loop asking to input the correct style
-until [[ $name =~ ^[a-zA-Z]+$ ]]; do
-  printf "\nInvalid format: $name"
+until [[ $fname =~ ^[a-zA-Z]+$ ]]; do
+  printf "\nInvalid format: $fname"
   printf "\nOnly letters please"
-  read name
+  read fname
+done
+
+#it will request the user to input a contact's name
+printf "\nLast Name: "
+read lname
+#it will check what's inputted contains only letters
+#if they dont have the correct format then it will loop asking to input the correct style
+until [[ $lname =~ ^[a-zA-Z]+$ ]]; do
+  printf "\nInvalid format: $lname"
+  printf "\nOnly letters please"
+  read lname
 done
 
 #Alias' can very so this is left open
@@ -39,12 +50,12 @@ printf "\nPhone Number: "
 read phone
 until [[ $phone =~ ^[0-9]+$ ]]; do
   printf "\nInvalid input: $phone"
-  printf "\nUse numbers only"
+  printf "\nUse numbers only\n"
   read phone
 done
 
 #it will then take all the input data into the CustomerDetails file
-printf "$email	$name	$alias	$address	$phone\n" >> CustomerDetails
+printf "$email	$fname $lname	$alias	$address	$phone\n" >> CustomerDetails
 printf "Customer successfully added. Returning to menu."
 sleep 3
 

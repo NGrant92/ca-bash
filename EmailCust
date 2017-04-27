@@ -3,6 +3,7 @@
 #Beginning of while loop
 while true; do
 printf "\n Please enter the name or email you wish to send to"
+printf "\n(type \"exit\" to return to Menu)"
 printf "\n==>> "
 
 #user's input is stored
@@ -52,5 +53,23 @@ elif [[ $custCount == 1 ]]
       printf "\nEmail successfull.\nReturning to menu..."
       sleep 3
     fi
+#if user types in "exit" it will return to menu
+elif [[ $cust == 'exit' ]]
+  then
+    printf "\nReturning to Menu...\n"
+    sleep 3
+
+else
+  printf "\nNo search matches: $cust"
+  printf "\nSearch again? (y/n)\n"
+  read ans
+  if [[ $ans == 'y' ]]
+    then
+      continue
+  else
+    printf "\nReturning to menu...\n\n"
+    sleep 3
+	fi
+fi
 break
 done

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-<<<<<<< HEAD
+
 #the main menu that will be displayed to the user's monitor
-=======
+
 #the main menu that will be displayed to the user
->>>>>>> f422ed8838c5c5a9982c5dfd8f840067a4d081b7
+
 while true; do
   clear
   printf "\n    # # # # # # # # # # # # # # # # # # # # # #"
@@ -38,6 +38,11 @@ while true; do
   3)
     clear
     ./FindCust
+    ;;
+
+  4)
+    clear
+    ./EmailCust
     ;;
   
   0)
