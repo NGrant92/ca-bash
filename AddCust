@@ -11,6 +11,7 @@ read email
 until [[ $email == *?@*?.??* ]]; do
   printf "\nInvalid format: $email"
   printf "\nExpected format: xx@xx.xx\n"
+  printf "\nPlease try again:\n"
   read email
 done
 
@@ -22,6 +23,7 @@ read fname
 until [[ $fname =~ ^[a-zA-Z]+$ ]]; do
   printf "\nInvalid format: $fname"
   printf "\nOnly letters please"
+  printf "\nPlease try again:\n"
   read fname
 done
 
@@ -33,6 +35,7 @@ read lname
 until [[ $lname =~ ^[a-zA-Z]+$ ]]; do
   printf "\nInvalid format: $lname"
   printf "\nOnly letters please"
+  printf "\nPlease try again:\n"
   read lname
 done
 
@@ -51,6 +54,7 @@ read phone
 until [[ $phone =~ ^[0-9]+$ ]]; do
   printf "\nInvalid input: $phone"
   printf "\nUse numbers only\n"
+  printf "\nPlease try again:\n"
   read phone
 done
 
